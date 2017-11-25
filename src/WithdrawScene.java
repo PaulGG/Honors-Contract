@@ -23,16 +23,34 @@ public class WithdrawScene {
 
         Button back = new Button("Back");
         gp.add(back, 0, 0);
-        back.setOnAction(event -> Main.switchScene(BankAccountScene.getInstance().getScene()));
 
         Label amount = new Label("Amount");
         TextField money = new TextField();
 
         Button submit = new Button("Submit");
 
+        Label status = new Label("");
+
+        back.setOnAction(event -> {
+            status.setText("");
+            Main.switchScene(BankAccountScene.getInstance().getScene());
+        });
+
         submit.setOnAction(event -> {
             try {
-                Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(Double.parseDouble(money.getText()));
+                // checks if user has enough funds
+                BankAccount activeUser = Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser());
+                if (activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
+                    // removes funds
+                    activeUser.removeFromBalance(Double.parseDouble(money.getText()));
+                    status.setText("Funds withdrawn.");
+                } else {
+                    // warning that user does not have enough funds
+                    status.setText("You do not have enough funds to withdraw this amount.");
+                }
+
+
+                money.clear();
             } catch (IOException e) {
 
             }
@@ -41,6 +59,7 @@ public class WithdrawScene {
         gp.add(amount, 1,0);
         gp.add(money,2,0);
         gp.add(submit, 3, 0);
+        gp.add(status, 4, 0);
     }
 
     public static WithdrawScene getInstance()  {

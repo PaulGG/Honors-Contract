@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         myStage = primaryStage;
-        myStage.setTitle("Hello World");
+        myStage.setTitle("Bank Account Portal Simulator");
         myStage.show();
         myStage.setScene(LoginScene.getInstance().getScene());
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -31,7 +31,7 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         launch(args);
         Registry.getInstance().closingProgram();
-        System.out.println("Closing program...");
+        System.out.println("Closing program.");
     }
 
 }

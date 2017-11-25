@@ -28,7 +28,7 @@ public class BankAccountScene {
         bp.setTop(grid);
         sc = new Scene(bp, Main.WIDTH, Main.HEIGHT);
         grid.getColumnConstraints().add(new ColumnConstraints(75));
-        grid.getColumnConstraints().add(new ColumnConstraints(342));
+        grid.getColumnConstraints().add(new ColumnConstraints(358));
         grid.getColumnConstraints().add(new ColumnConstraints(150));
         grid.getColumnConstraints().add(new ColumnConstraints(105));
         grid.getColumnConstraints().add(new ColumnConstraints(118));
@@ -49,9 +49,9 @@ public class BankAccountScene {
         Tab deposits = new Tab("Deposits");
         deposits.setClosable(false);
         tabPane.getTabs().add(deposits);
-        Tab checks = new Tab("Checks");
-        checks.setClosable(false);
-        tabPane.getTabs().add(checks);
+        Tab transfers = new Tab("Transfers");
+        transfers.setClosable(false);
+        tabPane.getTabs().add(transfers);
         Tab withdrawals = new Tab("Withdrawals");
         withdrawals.setClosable(false);
         tabPane.getTabs().add(withdrawals);
@@ -71,19 +71,15 @@ public class BankAccountScene {
         Button withdraw = new Button("Withdraw Cash");
         grid.add(withdraw, 4, 0);
         withdraw.setOnAction(event -> Main.switchScene(WithdrawScene.getInstance().getScene()));
-        Button checkD = new Button("Deposit Check");
-        grid.add(checkD, 5, 0);
+        Button makeTransfer = new Button("Transfer Cash");
+        grid.add(makeTransfer, 5, 0);
         Button pay = new Button("Make Payment");
         grid.add(pay, 6, 0);
-        pay.setOnAction(event -> Main.switchScene(PaymentScene.getInstance().getScene()));
+        pay.setOnAction(event -> Main.switchScene(UserTransfer.getInstance().getScene()));
     }
 
     public static BankAccountScene getInstance()  {
-        if(s == null) {
-            return s = new BankAccountScene();
-        } else {
-            return s;
-        }
+        return new BankAccountScene();
     }
 
     public Scene getScene() {

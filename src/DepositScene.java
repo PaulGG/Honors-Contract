@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.InputMismatchException;
 
 public class DepositScene {
 
@@ -21,26 +23,37 @@ public class DepositScene {
         gp.setPadding(new Insets(25, 25,25,25));
         sc = new Scene(gp, Main.WIDTH, Main.HEIGHT);
 
-        Button back = new Button("Back");
-        gp.add(back, 0, 0);
-        back.setOnAction(event -> Main.switchScene(BankAccountScene.getInstance().getScene()));
-
         Label amount = new Label("Amount");
         TextField money = new TextField();
 
         Button submit = new Button("Submit");
 
+        Label status = new Label();
+
+        Button back = new Button("Back");
+
+        gp.add(back, 0, 0);
+        back.setOnAction(event -> {
+            status.setText("");
+            Main.switchScene(BankAccountScene.getInstance().getScene());
+        });
+
         submit.setOnAction(event -> {
             try {
                 Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).addToBalance(Double.parseDouble(money.getText()));
+                status.setText("Money successfuly deposited.");
+                money.clear();
             } catch (IOException e) {
 
+            } catch (NumberFormatException i) {
+                status.setText("Please input a correct value for currency.");
             }
         });
 
         gp.add(amount, 1,0);
         gp.add(money,2,0);
         gp.add(submit, 3, 0);
+        gp.add(status, 4, 0);
     }
 
     public static DepositScene getInstance()  {

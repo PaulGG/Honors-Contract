@@ -8,12 +8,12 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class PaymentScene {
+public class UserTransfer {
 
-    static PaymentScene s;
+    static UserTransfer s;
     Scene sc;
 
-    public PaymentScene() {
+    public UserTransfer() {
         GridPane gp = new GridPane();
         gp.setVgap(25);
         gp.setHgap(25);
@@ -37,14 +37,13 @@ public class PaymentScene {
             try {
                 Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(Double.parseDouble(money.getText()));
                 Registry.getInstance().userBankInfo.get(person.getText()).addToBalance(Double.parseDouble(money.getText()));
+                money.clear();
             } catch (IOException e) {
 
             } catch (NullPointerException n) {
                 System.out.println("User does not exist.");
             } catch (NumberFormatException a) {
                 System.out.println("Invalid Input");
-            } finally {
-                money.clear();
             }
         });
 
@@ -55,9 +54,9 @@ public class PaymentScene {
         gp.add(person, 2,1);
     }
 
-    public static PaymentScene getInstance()  {
+    public static UserTransfer getInstance()  {
         if(s == null) {
-            return s = new PaymentScene();
+            return s = new UserTransfer();
         } else {
             return s;
         }
@@ -67,4 +66,3 @@ public class PaymentScene {
         return sc;
     }
 }
-

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -31,11 +32,28 @@ public class BankAccount {
     }
 
     public void addToBalance(double adding) {
-        balance += adding;
+        try {
+            balance += adding;
+            Registry.getInstance().writeRegistry();
+        } catch (IOException e) {
+
+        }
     }
 
     public void removeFromBalance(double removing) {
-        balance -= removing;
+        try {
+            balance -= removing;
+            Registry.getInstance().writeRegistry();
+        } catch (IOException e) {
+
+        }
+    }
+
+    public boolean hasEnoughFunds(double removing) {
+        if(balance - removing >= 0) {
+            return true;
+        }
+        return false;
     }
 
 }

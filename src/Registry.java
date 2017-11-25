@@ -38,6 +38,7 @@ public class Registry {
             // nothing to report
         }
         try {
+            // How to make it so tht you do not have to create a new writer? if the file exists we do not want to overwrite it
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("registry.txt"), "utf-8"));
             System.out.println("File created.");
         } catch (IOException e) {
@@ -45,13 +46,16 @@ public class Registry {
         }
     }
 
-    private void writeRegistry() throws IOException {
+    public void writeRegistry() throws IOException {
+        writer.close();
+        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("registry.txt"), "utf-8"));
         for(Map.Entry<String, String> user: userInfo.entrySet()) {
             writer.write(user.toString() + "\n");
         }
         for(Map.Entry<String, BankAccount> user: userBankInfo.entrySet()) {
             writer.write(user.toString() + "\n");
         }
+        writer.flush();
     }
 
     public void addNewUser(String key, String value) throws IOException {
@@ -74,11 +78,18 @@ public class Registry {
     }
 
     public boolean getUser(String password, String username) {
-        if (userInfo.get(password) == null) {
+        try {
+            if (userInfo.get(password) == null) {
+                writeRegistry();
+                return false;
+            }
+            if (userInfo.get(password).equals(username)) {
+                writeRegistry();
+                return true;
+            }
             return false;
-        }
-        if (userInfo.get(password).equals(username)) {
-            return true;
+        } catch (IOException e) {
+
         }
         return false;
     }
