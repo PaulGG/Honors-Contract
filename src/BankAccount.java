@@ -11,7 +11,7 @@ public class BankAccount {
     public BankAccount(String username) {
         this.username = username;
         Random r = new Random();
-        number = 1000000000L + Math.round((r.nextDouble() * 8999999999L));
+        number = 1000000000L + (long) (r.nextDouble() * 8999999999L);
         System.out.println(number);
         balance = 0;
     }

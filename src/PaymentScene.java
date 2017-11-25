@@ -39,8 +39,28 @@ public class PaymentScene {
 
         Button submit = new Button("Submit");
 
-        submit.setOnAction(event -> {
+        Label status = new Label("");
 
+        submit.setOnAction(event -> {
+            try {
+                BankAccount activeUser = Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser());
+                if (activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
+                    // removes funds
+                    activeUser.removeFromBalance(Double.parseDouble(money.getText()));
+                    Transactions.getInstance().addTransaction(new Transaction(Double.parseDouble(money.getText()), LoginManager.getInstance().getActiveUser(),
+                            reasonInput.getText(), companyInput.getText()));
+                    money.clear();
+                    reasonInput.clear();
+                    companyInput.clear();
+                    status.setText("Funds withdrawn.");
+                } else {
+                    // warning that user does not have enough funds
+                    status.setText("You do not have enough funds to withdraw this amount.");
+                }
+
+            } catch (IOException e) {
+
+            }
         });
 
         Label title = new Label("Make Payment");
@@ -54,6 +74,7 @@ public class PaymentScene {
         gp.add(company, 1,3);
         gp.add(companyInput, 2, 3);
         gp.add(submit, 3, 4);
+        gp.add(status, 4,4);
     }
 
     public static PaymentScene getInstance()  {

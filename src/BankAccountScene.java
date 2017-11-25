@@ -8,6 +8,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -60,9 +61,29 @@ public class BankAccountScene {
         TabPane tabPane = new TabPane();
         Tab transactions = new Tab("Transactions");
         transactions.setClosable(false);
+        VBox transactionsVBox = new VBox();
+
+        try {
+            for(Transaction t: Transactions.getInstance().transactions) {
+                transactionsVBox.getChildren().add(new Label(t.formatForPortal()));
+            }
+            transactions.setContent(transactionsVBox);
+        } catch (IOException e) {
+
+        }
         tabPane.getTabs().add(transactions);
         Tab deposits = new Tab("Deposits");
         deposits.setClosable(false);
+        VBox depositsBox = new VBox();
+
+        try {
+            for(Deposit d: Deposits.getInstance().deposits) {
+                depositsBox.getChildren().add(new Label(d.formatForPortal()));
+            }
+            deposits.setContent(depositsBox);
+        } catch (IOException e) {
+
+        }
         tabPane.getTabs().add(deposits);
         Tab transfers = new Tab("Transfers");
         transfers.setClosable(false);

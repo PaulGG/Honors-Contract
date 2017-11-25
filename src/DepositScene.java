@@ -41,7 +41,10 @@ public class DepositScene {
 
         submit.setOnAction(event -> {
             try {
-                Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).addToBalance(Double.parseDouble(money.getText()));
+                double deposited = Double.parseDouble(money.getText());
+                String activeUser = LoginManager.getInstance().getActiveUser();
+                Registry.getInstance().userBankInfo.get(activeUser).addToBalance(deposited);
+                Deposits.getInstance().deposits.add(new Deposit(deposited, activeUser));
                 status.setText("Money successfuly deposited.");
                 money.clear();
             } catch (IOException e) {
