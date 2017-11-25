@@ -41,6 +41,14 @@ public class BankAccountScene {
         title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(title,0,0);
 
+        Label accountNumber = new Label();
+        try {
+            accountNumber = new Label("Account Number: " + Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).getAccountNumber());
+        } catch (IOException e) {
+
+        }
+        grid.add(accountNumber, 1,0);
+
         // logout button
 
         Button logout = new Button("Sign Out");

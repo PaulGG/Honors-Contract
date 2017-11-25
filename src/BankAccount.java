@@ -5,19 +5,18 @@ import java.util.Random;
 public class BankAccount {
 
     private double balance;
-    private double number;
+    private long number;
     private String username;
 
     public BankAccount(String username) {
         this.username = username;
         Random r = new Random();
-        number = r.nextDouble() * Math.pow(10, 10);
-        number = Math.round(number);
+        number = 1000000000L + Math.round((r.nextDouble() * 8999999999L));
         System.out.println(number);
         balance = 0;
     }
 
-    public BankAccount(String username, double balance, double number) {
+    public BankAccount(String username, double balance, long number) {
         this.username = username;
         this.balance = balance;
         this.number = number;
@@ -38,6 +37,10 @@ public class BankAccount {
         } catch (IOException e) {
 
         }
+    }
+
+    public long getAccountNumber() {
+        return number;
     }
 
     public void removeFromBalance(double removing) {

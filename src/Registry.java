@@ -25,12 +25,12 @@ public class Registry {
                 if(strs.length == 4) {
                     String username = strs[1];
                     double checkingBalance = Double.parseDouble(strs[2]);
-                    double checkingNumber = Double.parseDouble(strs[3]);
+                    long checkingNumber = Long.parseLong(strs[3]);
                     userBankInfo.put(username, new BankAccount(username, checkingBalance, checkingNumber));
                 } else if (strs.length > 0) {
-                    String password = strs[0];
-                    String username = strs[1];
-                    userInfo.put(password, username);
+                    String username = strs[0];
+                    String password = strs[1];
+                    userInfo.put(username, password);
                 }
             }
         } catch (IOException e) {
@@ -49,9 +49,11 @@ public class Registry {
         writer.close();
         writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("registry.txt"), "utf-8"));
         for(Map.Entry<String, String> user: userInfo.entrySet()) {
+            System.out.println(user.toString());
             writer.write(user.toString() + "\n");
         }
         for(Map.Entry<String, BankAccount> user: userBankInfo.entrySet()) {
+            System.out.println(user.toString());
             writer.write(user.toString() + "\n");
         }
         writer.flush();
@@ -59,7 +61,7 @@ public class Registry {
 
     public void addNewUser(String key, String value) throws IOException {
         userInfo.put(key, value);
-        userBankInfo.put(value, new BankAccount(value));
+        userBankInfo.put(key, new BankAccount(key));
         writeRegistry();
     }
 
@@ -77,18 +79,11 @@ public class Registry {
     }
 
     public boolean getUser(String password, String username) {
-        try {
-            if (userInfo.get(password) == null) {
-                writeRegistry();
-                return false;
-            }
-            if (userInfo.get(password).equals(username)) {
-                writeRegistry();
-                return true;
-            }
+        if (userInfo.get(password) == null) {
             return false;
-        } catch (IOException e) {
-
+        }
+        if (userInfo.get(password).equals(username)) {
+            return true;
         }
         return false;
     }

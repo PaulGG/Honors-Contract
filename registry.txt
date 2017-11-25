@@ -1,2 +1,0 @@
-ECHO$290wdhl=hello
-hello=hello=0.0=7.786453851E9

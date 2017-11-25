@@ -70,7 +70,7 @@ public class LoginScene {
             LoginManager.getInstance().setPassword(pwBox.getText());
 
             try {
-                if (Registry.getInstance().getUser(LoginManager.getInstance().getActivePassword(), LoginManager.getInstance().getActiveUser())) {
+                if (Registry.getInstance().getUser(LoginManager.getInstance().getActiveUser(), LoginManager.getInstance().getActivePassword())) {
                     info.setText("Logging in...");
                     PauseTransition p = new PauseTransition(new Duration(1000));
                     p.setOnFinished((e) -> Main.switchScene(BankAccountScene.getInstance().getScene()));
@@ -100,10 +100,10 @@ public class LoginScene {
                     info.setText("Password must have one digit, uppercase letter, lowercase letter, special symbol, and at least 8 characters.");
                     return;
                 }
-                if (Registry.getInstance().getUser(pwBox.getText(), userTextField.getText()) || Registry.getInstance().userInfo.containsValue(userTextField.getText())) {
+                if (Registry.getInstance().getUser(userTextField.getText(), pwBox.getText()) || Registry.getInstance().userInfo.containsKey(userTextField.getText())) {
                     info.setText("Account is already in the system. Please login.");
                 } else {
-                    Registry.getInstance().addNewUser(pwBox.getText(), userTextField.getText());
+                    Registry.getInstance().addNewUser(userTextField.getText(), pwBox.getText());
                     info.setText("Account registered.");
                 }
 
