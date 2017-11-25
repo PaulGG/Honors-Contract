@@ -16,7 +16,6 @@ import java.io.IOException;
 
 public class LoginScene {
 
-    static LoginScene s;
     Scene sc;
 
     public LoginScene() {
@@ -92,15 +91,20 @@ public class LoginScene {
 
         register.setOnAction(e -> {
             try {
-                if (pwBox.getText().length() <= 0 || userTextField.getText().length() <= 0) {
-                    info.setText("Username or password field incomplete.");
+                String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+                if(userTextField.getText().length() <= 0 || pwBox.getText().length() <= 0) {
+                    info.setText("Username or password fields incomplete.");
                     return;
                 }
-                if (!Registry.getInstance().getUser(pwBox.getText(), userTextField.getText()) && !Registry.getInstance().userInfo.containsValue(userTextField.getText())) {
+                if (!pwBox.getText().matches(pattern)) {
+                    info.setText("Password must have one digit, uppercase letter, lowercase letter, special symbol, and at least 8 characters.");
+                    return;
+                }
+                if (Registry.getInstance().getUser(pwBox.getText(), userTextField.getText()) || Registry.getInstance().userInfo.containsValue(userTextField.getText())) {
+                    info.setText("Account is already in the system. Please login.");
+                } else {
                     Registry.getInstance().addNewUser(pwBox.getText(), userTextField.getText());
                     info.setText("Account registered.");
-                } else {
-                    info.setText("Account is already in the system. Please login.");
                 }
 
             } catch (IOException io) {

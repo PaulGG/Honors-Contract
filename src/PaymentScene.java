@@ -5,12 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
 
 public class PaymentScene {
 
-    static PaymentScene s;
     Scene sc;
 
     public PaymentScene() {
@@ -28,39 +29,35 @@ public class PaymentScene {
         Label amount = new Label("Amount");
         TextField money = new TextField();
 
-        Label toSend = new Label("Username to Send To");
-        TextField person = new TextField();
+        // reason for payment
+        Label reason = new Label("Reason for Payment");
+        TextField reasonInput = new TextField();
+
+        // company payment is going to
+        Label company = new Label("Company to Pay");
+        TextField companyInput = new TextField();
 
         Button submit = new Button("Submit");
 
         submit.setOnAction(event -> {
-            try {
-                Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(Double.parseDouble(money.getText()));
-                Registry.getInstance().userBankInfo.get(person.getText()).addToBalance(Double.parseDouble(money.getText()));
-            } catch (IOException e) {
 
-            } catch (NullPointerException n) {
-                System.out.println("User does not exist.");
-            } catch (NumberFormatException a) {
-                System.out.println("Invalid Input");
-            } finally {
-                money.clear();
-            }
         });
 
-        gp.add(amount, 1,0);
-        gp.add(money,2,0);
-        gp.add(submit, 3, 0);
-        gp.add(toSend, 1, 1);
-        gp.add(person, 2,1);
+        Label title = new Label("Make Payment");
+        title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+        gp.add(title, 1, 0);
+        gp.add(amount, 1,1);
+        gp.add(money,2,1);
+        gp.add(reason, 1, 2);
+        gp.add(reasonInput, 2,2);
+        gp.add(company, 1,3);
+        gp.add(companyInput, 2, 3);
+        gp.add(submit, 3, 4);
     }
 
     public static PaymentScene getInstance()  {
-        if(s == null) {
-            return s = new PaymentScene();
-        } else {
-            return s;
-        }
+        return new PaymentScene();
     }
 
     public Scene getScene() {

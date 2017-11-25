@@ -12,7 +12,6 @@ public class Registry {
     HashMap<String, BankAccount> userBankInfo;
     private static Registry r;
 
-
     private Registry() throws IOException {
         userInfo = new HashMap<>();
         userBankInfo = new HashMap<>();

@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -12,7 +14,6 @@ import java.util.InputMismatchException;
 
 public class DepositScene {
 
-    static DepositScene s;
     Scene sc;
 
     public DepositScene() {
@@ -50,18 +51,18 @@ public class DepositScene {
             }
         });
 
-        gp.add(amount, 1,0);
-        gp.add(money,2,0);
-        gp.add(submit, 3, 0);
-        gp.add(status, 4, 0);
+        Label title = new Label("Deposit");
+        title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+        gp.add(title, 1, 0);
+        gp.add(amount, 1,1);
+        gp.add(money,2,1);
+        gp.add(submit, 3, 1);
+        gp.add(status, 4, 1);
     }
 
     public static DepositScene getInstance()  {
-        if(s == null) {
-            return s = new DepositScene();
-        } else {
-            return s;
-        }
+        return new DepositScene();
     }
 
     public Scene getScene() {

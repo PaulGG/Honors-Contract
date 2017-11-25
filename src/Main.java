@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     private static Stage myStage;
-    public static final int WIDTH = 1130;
+    public static final int WIDTH = 1200;
     public static final int HEIGHT = 576;
 
     @Override

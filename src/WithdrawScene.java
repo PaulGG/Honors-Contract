@@ -5,12 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
 
 public class WithdrawScene {
 
-    static WithdrawScene s;
     Scene sc;
 
     public WithdrawScene() {
@@ -56,18 +57,18 @@ public class WithdrawScene {
             }
         });
 
-        gp.add(amount, 1,0);
-        gp.add(money,2,0);
-        gp.add(submit, 3, 0);
-        gp.add(status, 4, 0);
+        Label title = new Label("Withdraw");
+        title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+        gp.add(title, 1, 0);
+        gp.add(amount, 1,1);
+        gp.add(money,2,1);
+        gp.add(submit, 3, 1);
+        gp.add(status, 4, 1);
     }
 
     public static WithdrawScene getInstance()  {
-        if(s == null) {
-            return s = new WithdrawScene();
-        } else {
-            return s;
-        }
+        return new WithdrawScene();
     }
 
     public Scene getScene() {
