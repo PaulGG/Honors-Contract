@@ -52,6 +52,10 @@ public class BankAccount {
         }
     }
 
+    public String getUserString() {
+        return username;
+    }
+
     public boolean hasEnoughFunds(double removing) {
         if(balance - removing >= 0) {
             return true;

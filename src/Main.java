@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     private static Stage myStage;
-    public static final int WIDTH = 1200;
+    public static final int WIDTH = 1130;
     public static final int HEIGHT = 576;
 
     @Override
@@ -32,7 +32,7 @@ public class Main extends Application {
         launch(args);
         // TODO: try getting rid of this garbage
         Registry.getInstance().closingProgram();
-        Transactions.getInstance().closingProgram();
+        Payments.getInstance().closingProgram();
         System.out.println("Closing program.");
     }
 

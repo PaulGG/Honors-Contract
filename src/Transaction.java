@@ -2,66 +2,43 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Transaction {
+public abstract class Transaction {
 
-    // A transaction must have the following:
-    // A date
-    // An amount of money spent
-    // The person who spent it
-    // The reason it was spent
-    // The company it is going to
-
-    String date;
-    SimpleDateFormat dateFormatter;
-    double moneySpent;
-    String user;
-    String reason;
-    String company;
+    // Every transaction has a date, and a user, and an amount.
     Date now;
+    String date;
+    double amount;
+    String user;
+    SimpleDateFormat dateFormatter;
 
-    public Transaction(String date, double moneySpent, String user, String reason, String company) {
+    public Transaction(String date, double amount, String user) {
         this.date = date;
-        this.moneySpent = moneySpent;
+        this.amount = amount;
         this.user = user;
-        this.reason = reason;
-        this.company = company;
     }
 
-    public Transaction(double moneySpent, String user, String reason, String company) {
-        this.moneySpent = moneySpent;
+    public Transaction(double amount, String user) {
+        this.amount = amount;
         this.user = user;
-        this.reason = reason;
-        this.company = company;
-        dateFormatter = new SimpleDateFormat("y/M/d h:m:s a");
+        dateFormatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
         now = new Date();
         date = dateFormatter.format(now);
     }
 
-    public String toString() {
-        return date + "=" + moneySpent + "=" + user + "=" + reason + "=" + company;
-    }
+    public abstract String toString();
 
-    public String formatForPortal() {
-        return date + "\n" + DecimalFormat.getCurrencyInstance().format(moneySpent) + " " + company + " " + reason;
-    }
+    public abstract String formatForPortal();
 
     public String getDate() {
         return date;
     }
 
-    public double getMoneySpent() {
-        return moneySpent;
+    public double getAmount() {
+        return amount;
     }
 
     public String getUser() {
         return user;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public String getCompany() {
-        return company;
-    }
 }

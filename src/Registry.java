@@ -43,6 +43,7 @@ public class Registry {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        writeRegistry();
     }
 
     public void writeRegistry() throws IOException {

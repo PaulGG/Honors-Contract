@@ -38,10 +38,12 @@ public class TransferScene {
 
         submit.setOnAction(event -> {
             try {
+                double moneyAmount = Double.parseDouble(money.getText());
                 BankAccount activeUser = Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser());
                 if(activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
-                    Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(Double.parseDouble(money.getText()));
+                    Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(moneyAmount);
                     Registry.getInstance().userBankInfo.get(person.getText()).addToBalance(Double.parseDouble(money.getText()));
+                    Transfers.getInstance().addTransfer(new Transfer(moneyAmount, activeUser.getUserString(), person.getText()));
                     status.setText("Funds transferred.");
                 } else {
                     status.setText("You do not have enough funds to perform this transfer.");

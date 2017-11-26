@@ -47,15 +47,15 @@ public class PaymentScene {
                 if (activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
                     // removes funds
                     activeUser.removeFromBalance(Double.parseDouble(money.getText()));
-                    Transactions.getInstance().addTransaction(new Transaction(Double.parseDouble(money.getText()), LoginManager.getInstance().getActiveUser(),
+                    Payments.getInstance().addPayments(new Payment(Double.parseDouble(money.getText()), LoginManager.getInstance().getActiveUser(),
                             reasonInput.getText(), companyInput.getText()));
                     money.clear();
                     reasonInput.clear();
                     companyInput.clear();
-                    status.setText("Funds withdrawn.");
+                    status.setText("Payment completed.");
                 } else {
                     // warning that user does not have enough funds
-                    status.setText("You do not have enough funds to withdraw this amount.");
+                    status.setText("You do not have enough funds to make this payment.");
                 }
 
             } catch (IOException e) {

@@ -42,11 +42,16 @@ public class DepositScene {
         submit.setOnAction(event -> {
             try {
                 double deposited = Double.parseDouble(money.getText());
-                String activeUser = LoginManager.getInstance().getActiveUser();
-                Registry.getInstance().userBankInfo.get(activeUser).addToBalance(deposited);
-                Deposits.getInstance().deposits.add(new Deposit(deposited, activeUser));
-                status.setText("Money successfuly deposited.");
-                money.clear();
+                if (deposited > 0) {
+                    String activeUser = LoginManager.getInstance().getActiveUser();
+                    Registry.getInstance().userBankInfo.get(activeUser).addToBalance(deposited);
+                    Deposits.getInstance().addDeposit((new Deposit(deposited, activeUser)));
+                    status.setText("Money successfuly deposited.");
+                    money.clear();
+                } else {
+                    status.setText("Cannot deposit 0 or a negative amount.");
+                }
+
             } catch (IOException e) {
 
             } catch (NumberFormatException i) {

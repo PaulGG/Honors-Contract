@@ -13,7 +13,7 @@ public class Deposits {
     private Deposits() throws IOException {
         deposits = new ArrayList<Deposit>();
         try {
-            File f = new File("transactions.txt");
+            File f = new File("deposits.txt");
             fr = new FileReader(f);
             reader = new Scanner(fr);
             while(reader.hasNextLine()) {
@@ -30,11 +30,12 @@ public class Deposits {
         }
         try {
             // How to make it so tht you do not have to create a new writer? if the file exists we do not want to overwrite it
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("transactions.txt"), "utf-8"));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("deposits.txt"), "utf-8"));
             System.out.println("File created.");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        writeDeposits();
     }
 
     public static Deposits getInstance() throws IOException {
@@ -47,7 +48,7 @@ public class Deposits {
 
     public void writeDeposits() throws IOException {
         writer.close();
-        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("transactions.txt"), "utf-8"));
+        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("deposits.txt"), "utf-8"));
         for(Deposit d: deposits) {
             System.out.println(d.toString());
             writer.write(d.toString() + "\n");
@@ -62,6 +63,7 @@ public class Deposits {
 
     public void addDeposit(Deposit d) throws IOException {
         deposits.add(d);
+        Transactions.getInstance().addTransaction(d);
         writeDeposits();
     }
 

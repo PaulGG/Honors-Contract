@@ -16,16 +16,45 @@ public class Transactions {
             File f = new File("transactions.txt");
             fr = new FileReader(f);
             reader = new Scanner(fr);
+            // TODO: READER
             while(reader.hasNextLine()) {
                 String str = reader.nextLine();
-                String [] strs = str.split("=");
-                // a transaction will always look like: date+time=user=reason=company
-                String date = strs[0];
-                double moneySpent = Double.parseDouble(strs[1]);
-                String user = strs[2];
-                String reason = strs[3];
-                String company = strs[4];
-                transactions.add(new Transaction(date, moneySpent, user, reason, company));
+                if(str.contains("DEPOSIT")) {
+                    // if Deposit
+                    String [] strs = str.split("=");
+                    // a transaction will always look like: date+time=user=reason=company
+                    String date = strs[0];
+                    double moneySpent = Double.parseDouble(strs[1]);
+                    String user = strs[2];
+                    transactions.add(new Deposit(date, moneySpent, user));
+                } else if(str.contains("WITHDRAWAL")) {
+                    // if Withdrawal
+                    String [] strs = str.split("=");
+                    // a transaction will always look like: date+time=user=reason=company
+                    String date = strs[0];
+                    double moneySpent = Double.parseDouble(strs[1]);
+                    String user = strs[2];
+                    transactions.add(new Withdrawal(date, moneySpent, user));
+                } else if(str.contains("PAYMENT")) {
+                    // if Payment
+                    String [] strs = str.split("=");
+                    // a payment will always look like: date+time=user=reason=company
+                    String date = strs[0];
+                    double moneySpent = Double.parseDouble(strs[1]);
+                    String user = strs[2];
+                    String reason = strs[3];
+                    String company = strs[4];
+                    transactions.add(new Payment(date, moneySpent, user, reason, company));
+                } else if(str.contains("TRANSFER")) {
+                    // if Transfer
+                    String [] strs = str.split("=");
+                    // transfers are: date+time=amount=user=recipient
+                    String date = strs[0];
+                    double moneySpent = Double.parseDouble(strs[1]);
+                    String user = strs[2];
+                    String recipient = strs[3];
+                    transactions.add(new Transfer(date, moneySpent, user, recipient));
+                }
             }
         } catch (IOException e) {
 
@@ -37,6 +66,7 @@ public class Transactions {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        writeTransactions();
     }
 
     public static Transactions getInstance() throws IOException {
@@ -72,6 +102,18 @@ public class Transactions {
         for(Transaction t: transactions) {
             if(t.user.equals(user)) {
                 toReturn.add(t);
+            }
+        }
+        return toReturn;
+    }
+
+    public ArrayList<Transaction> getRecipientTransactions(String recipient) {
+        ArrayList<Transaction> toReturn = new ArrayList<Transaction>();
+        for(Transaction t: transactions) {
+            if(t instanceof Transfer) {
+                if(((Transfer) t).recipient.equals(recipient)) {
+                    toReturn.add(t);
+                }
             }
         }
         return toReturn;
