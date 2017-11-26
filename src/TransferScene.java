@@ -28,6 +28,7 @@ public class TransferScene {
 
         Label amount = new Label("Amount");
         TextField money = new TextField();
+        money.requestFocus();
 
         Label toSend = new Label("Username to Send To");
         TextField person = new TextField();
@@ -43,7 +44,7 @@ public class TransferScene {
                 if(activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
                     Registry.getInstance().userBankInfo.get(LoginManager.getInstance().getActiveUser()).removeFromBalance(moneyAmount);
                     Registry.getInstance().userBankInfo.get(person.getText()).addToBalance(Double.parseDouble(money.getText()));
-                    Transfers.getInstance().addTransfer(new Transfer(moneyAmount, activeUser.getUserString(), person.getText()));
+                    Transfers.getInstance().add(new Transfer(moneyAmount, activeUser.getUserString(), person.getText()));
                     status.setText("Funds transferred.");
                 } else {
                     status.setText("You do not have enough funds to perform this transfer.");

@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Withdrawal extends Transaction {
 
-    public Withdrawal(String date, double moneySpent, String user) {
-        super(date, moneySpent, user);
+    public Withdrawal(long time, double moneySpent, String user) {
+        super(time, moneySpent, user);
     }
 
     public Withdrawal(double amount, String user) {
@@ -13,7 +13,7 @@ public class Withdrawal extends Transaction {
     }
 
     public String toString() {
-        return date + "=" + amount + "=" + user + "=WITHDRAWAL";
+        return time + "=" + amount + "=" + user + "=WITHDRAWAL";
     }
 
     public String formatForPortal() {

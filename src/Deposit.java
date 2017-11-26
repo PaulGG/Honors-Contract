@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Deposit extends Transaction {
 
-    public Deposit(String date, double moneySpent, String user) {
-        super(date, moneySpent, user);
+    public Deposit(long time, double moneySpent, String user) {
+        super(time, moneySpent, user);
     }
 
     public Deposit(double amount, String user) {
@@ -13,7 +13,7 @@ public class Deposit extends Transaction {
     }
 
     public String toString() {
-        return date + "=" + amount + "=" + user + "=DEPOSIT";
+        return time + "=" + amount + "=" + user + "=DEPOSIT";
     }
 
     public String formatForPortal() {

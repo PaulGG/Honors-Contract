@@ -28,6 +28,7 @@ public class PaymentScene {
 
         Label amount = new Label("Amount");
         TextField money = new TextField();
+        money.requestFocus();
 
         // reason for payment
         Label reason = new Label("Reason for Payment");
@@ -47,7 +48,7 @@ public class PaymentScene {
                 if (activeUser.hasEnoughFunds(Double.parseDouble(money.getText()))) {
                     // removes funds
                     activeUser.removeFromBalance(Double.parseDouble(money.getText()));
-                    Payments.getInstance().addPayments(new Payment(Double.parseDouble(money.getText()), LoginManager.getInstance().getActiveUser(),
+                    Payments.getInstance().add(new Payment(Double.parseDouble(money.getText()), LoginManager.getInstance().getActiveUser(),
                             reasonInput.getText(), companyInput.getText()));
                     money.clear();
                     reasonInput.clear();

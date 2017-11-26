@@ -9,8 +9,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.InputMismatchException;
 
 public class DepositScene {
 
@@ -26,6 +24,7 @@ public class DepositScene {
 
         Label amount = new Label("Amount");
         TextField money = new TextField();
+        money.requestFocus();
 
         Button submit = new Button("Submit");
 
@@ -45,7 +44,7 @@ public class DepositScene {
                 if (deposited > 0) {
                     String activeUser = LoginManager.getInstance().getActiveUser();
                     Registry.getInstance().userBankInfo.get(activeUser).addToBalance(deposited);
-                    Deposits.getInstance().addDeposit((new Deposit(deposited, activeUser)));
+                    Deposits.getInstance().add((new Deposit(deposited, activeUser)));
                     status.setText("Money successfuly deposited.");
                     money.clear();
                 } else {

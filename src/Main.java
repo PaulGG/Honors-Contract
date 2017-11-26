@@ -30,9 +30,6 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         launch(args);
-        // TODO: try getting rid of this garbage
-        Registry.getInstance().closingProgram();
-        Payments.getInstance().closingProgram();
         System.out.println("Closing program.");
     }
 

@@ -27,6 +27,7 @@ public class WithdrawalsScene {
 
         Label amount = new Label("Amount");
         TextField money = new TextField();
+        money.requestFocus();
 
         Button submit = new Button("Submit");
 
@@ -47,8 +48,7 @@ public class WithdrawalsScene {
                         // removes funds
                         activeUser.removeFromBalance(moneyAmount);
                         status.setText("Funds withdrawn.");
-                        Registry.getInstance().userBankInfo.get(activeUser.getUserString()).addToBalance(moneyAmount);
-                        Withdrawals.getInstance().addWithdrawal((new Withdrawal(moneyAmount, activeUser.getUserString())));
+                        Withdrawals.getInstance().add((new Withdrawal(moneyAmount, activeUser.getUserString())));
                     } else {
                         // warning that user does not have enough funds
                         status.setText("You do not have enough funds to withdraw this amount.");

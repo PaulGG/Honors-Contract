@@ -10,7 +10,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class BankAccountScene {
 
@@ -54,23 +56,30 @@ public class BankAccountScene {
         logout.setOnAction(e -> Main.switchScene(LoginScene.getInstance().getScene()));
         grid.add(logout, 0, 1);
 
-        // TODO: add scroll panes to all vboxes
-
         TabPane tabPane = new TabPane();
-
         Tab transactions = new Tab("Transactions");
         transactions.setClosable(false);
         ListView<String> transactionList = new ListView<String>();
         ObservableList<String> transactionItems = FXCollections.observableArrayList();
 
-
         try {
-            for(Transaction t: Transactions.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser())) {
-                transactionItems.add(t.formatForPortal());
+            ArrayList<Transaction> transList = Transactions.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser());
+            transList.addAll(Transactions.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser()));
+            Collections.sort(transList, Transaction.TRANSACTION_SORT);
+
+            for(Transaction t: transList) {
+                if(t instanceof Transfer) {
+                    if(((Transfer) t).recipient.equals(LoginManager.getInstance().getActiveUser())) {
+                        transactionItems.add(((Transfer) t).formatForPortalRecipient());
+                    } else {
+                        transactionItems.add(t.formatForPortal());
+                    }
+                } else {
+                    transactionItems.add(t.formatForPortal());
+                }
+
             }
-            for(Transaction t: Transactions.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser())) {
-                transactionItems.add(((Transfer) t).formatForPortalRecipient());
-            }
+
             transactionList.setItems(transactionItems);
             transactions.setContent(transactionList);
         } catch (IOException e) {
@@ -85,14 +94,31 @@ public class BankAccountScene {
         ObservableList<String> paymentItems = FXCollections.observableArrayList();
 
         try {
-            for(Payment t: Payments.getInstance().getUserPayments(LoginManager.getInstance().getActiveUser())) {
+            ArrayList<Transaction> tempList = Payments.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser());
+            ArrayList<Transaction> transList = new ArrayList<>();
+            for(Transaction t: tempList) {
+                if(t instanceof Payment) {
+                    transList.add(t);
+                }
+            }
+            ArrayList<Transaction> tempList2 = Transactions.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser());
+            for(Transaction t: tempList2) {
+                if(t instanceof Payment) {
+                    transList.add(t);
+                }
+            }
+            Collections.sort(transList, Transaction.TRANSACTION_SORT);
+
+            for(Transaction t: transList) {
                 paymentItems.add(t.formatForPortal());
             }
+
             paymentList.setItems(paymentItems);
             payments.setContent(paymentList);
         } catch (IOException e) {
 
         }
+
         tabPane.getTabs().add(payments);
         Tab transfers = new Tab("Transfers");
         transfers.setClosable(false);
@@ -100,13 +126,25 @@ public class BankAccountScene {
         ObservableList<String> transferItems = FXCollections.observableArrayList();
 
         try {
-            for(Transfer t: Transfers.getInstance().getUserTransfers(LoginManager.getInstance().getActiveUser())) {
-                transferItems.add(t.formatForPortal());
+            ArrayList<Transaction> tempList = Transfers.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser());
+            ArrayList<Transaction> transList = new ArrayList<>();
+            for(Transaction t: tempList) {
+                transList.add(t);
             }
-            for(Transfer t: Transfers.getInstance().getRecipientTransfers(LoginManager.getInstance().getActiveUser())) {
-                transferItems.add(t.formatForPortalRecipient());
+            ArrayList<Transaction> tempList2 = Transfers.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser());
+            for(Transaction t: tempList2) {
+                transList.add(t);
             }
-            Collections.reverse(transferItems);
+            Collections.sort(transList, Transaction.TRANSACTION_SORT);
+
+            for(Transaction t: transList) {
+                if(((Transfer) t).recipient.equals(LoginManager.getInstance().getActiveUser())) {
+                    transferItems.add(((Transfer) t).formatForPortalRecipient());
+                } else {
+                    transferItems.add(t.formatForPortal());
+                }
+            }
+
             transferList.setItems(transferItems);
             transfers.setContent(transferList);
         } catch (IOException e) {
@@ -117,11 +155,27 @@ public class BankAccountScene {
         deposits.setClosable(false);
         ListView<String> depositsList = new ListView<String>();
         ObservableList<String> depositItems = FXCollections.observableArrayList();
+
         try {
-            for(Deposit d: Deposits.getInstance().getUserDeposits(LoginManager.getInstance().getActiveUser())) {
-                depositItems.add(d.formatForPortal());
+            ArrayList<Transaction> tempList = Deposits.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser());
+            ArrayList<Transaction> transList = new ArrayList<>();
+            for(Transaction t: tempList) {
+                if(t instanceof Deposit) {
+                    transList.add(t);
+                }
             }
-            Collections.reverse(depositItems);
+            ArrayList<Transaction> tempList2 = Deposits.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser());
+            for(Transaction t: tempList2) {
+                if(t instanceof Deposit) {
+                    transList.add(t);
+                }
+            }
+            transList.sort(Transaction.TRANSACTION_SORT);
+
+            for(Transaction t: transList) {
+                depositItems.add(t.formatForPortal());
+            }
+
             depositsList.setItems(depositItems);
             deposits.setContent(depositsList);
         } catch (IOException e) {
@@ -135,10 +189,25 @@ public class BankAccountScene {
         ObservableList<String> withdrawalsItems = FXCollections.observableArrayList();
 
         try {
-            for(Withdrawal t: Withdrawals.getInstance().getUserWithdrawals(LoginManager.getInstance().getActiveUser())) {
+            ArrayList<Transaction> tempList = Withdrawals.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser());
+            ArrayList<Transaction> transList = new ArrayList<>();
+            for(Transaction t: tempList) {
+                if(t instanceof Withdrawal) {
+                    transList.add(t);
+                }
+            }
+            ArrayList<Transaction> tempList2 = Withdrawals.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser());
+            for(Transaction t: tempList2) {
+                if(t instanceof Withdrawal) {
+                    transList.add(t);
+                }
+            }
+            Collections.sort(transList, Transaction.TRANSACTION_SORT);
+
+            for(Transaction t: transList) {
                 withdrawalsItems.add(t.formatForPortal());
             }
-            Collections.reverse(withdrawalsItems);
+
             withdrawalsList.setItems(withdrawalsItems);
             withdrawals.setContent(withdrawalsList);
         } catch (IOException e) {

@@ -14,8 +14,8 @@ public class Payment extends Transaction {
     String reason;
     String company;
 
-    public Payment(String date, double amount, String user, String reason, String company) {
-        super(date, amount, user);
+    public Payment(long time, double amount, String user, String reason, String company) {
+        super(time, amount, user);
         this.reason = reason;
         this.company = company;
     }
@@ -27,7 +27,7 @@ public class Payment extends Transaction {
     }
 
     public String toString() {
-        return date + "=" + amount + "=" + user + "=" + reason + "=" + company + "=PAYMENT";
+        return time + "=" + amount + "=" + user + "=" + reason + "=" + company + "=PAYMENT";
     }
 
     public String formatForPortal() {

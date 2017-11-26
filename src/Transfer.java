@@ -4,8 +4,8 @@ public class Transfer extends Transaction {
 
     String recipient;
 
-    public Transfer(String date, double amount, String user, String recipient) {
-        super(date, amount, user);
+    public Transfer(long time, double amount, String user, String recipient) {
+        super(time, amount, user);
         this.recipient = recipient;
     }
 
@@ -15,7 +15,7 @@ public class Transfer extends Transaction {
     }
 
     public String toString() {
-        return date + "=" + amount + "=" + user + "=" + recipient + "=TRANSFER";
+        return time + "=" + amount + "=" + user + "=" + recipient + "=TRANSFER";
     }
 
     public String formatForPortal() {
