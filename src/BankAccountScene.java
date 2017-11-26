@@ -1,19 +1,16 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class BankAccountScene {
 
@@ -63,63 +60,70 @@ public class BankAccountScene {
 
         Tab transactions = new Tab("Transactions");
         transactions.setClosable(false);
-        VBox transactionsVBox = new VBox();
+        ListView<String> transactionList = new ListView<String>();
+        ObservableList<String> transactionItems = FXCollections.observableArrayList();
+
 
         try {
             for(Transaction t: Transactions.getInstance().getUserTransactions(LoginManager.getInstance().getActiveUser())) {
-                transactionsVBox.getChildren().add(new Label(t.formatForPortal()));
+                transactionItems.add(t.formatForPortal());
             }
             for(Transaction t: Transactions.getInstance().getRecipientTransactions(LoginManager.getInstance().getActiveUser())) {
-                transactionsVBox.getChildren().add(new Label(((Transfer) t).formatForPortalRecipient()));
+                transactionItems.add(((Transfer) t).formatForPortalRecipient());
             }
-            transactions.setContent(transactionsVBox);
+            transactionList.setItems(transactionItems);
+            transactions.setContent(transactionList);
         } catch (IOException e) {
 
         }
-
-        Label options = new Label("Please select a tab to \nview the desired \noption.");
-        grid.add(options, 0, 2);
 
         tabPane.getTabs().add(transactions);
 
         Tab payments = new Tab("Payments");
         payments.setClosable(false);
-        VBox paymentsVBox = new VBox();
+        ListView<String> paymentList = new ListView<String>();
+        ObservableList<String> paymentItems = FXCollections.observableArrayList();
 
         try {
             for(Payment t: Payments.getInstance().getUserPayments(LoginManager.getInstance().getActiveUser())) {
-                paymentsVBox.getChildren().add(new Label(t.formatForPortal()));
+                paymentItems.add(t.formatForPortal());
             }
-            payments.setContent(paymentsVBox);
+            paymentList.setItems(paymentItems);
+            payments.setContent(paymentList);
         } catch (IOException e) {
 
         }
         tabPane.getTabs().add(payments);
         Tab transfers = new Tab("Transfers");
         transfers.setClosable(false);
-        VBox transfersVBox = new VBox();
+        ListView<String> transferList = new ListView<String>();
+        ObservableList<String> transferItems = FXCollections.observableArrayList();
 
         try {
             for(Transfer t: Transfers.getInstance().getUserTransfers(LoginManager.getInstance().getActiveUser())) {
-                transfersVBox.getChildren().add(new Label(t.formatForPortal()));
+                transferItems.add(t.formatForPortal());
             }
             for(Transfer t: Transfers.getInstance().getRecipientTransfers(LoginManager.getInstance().getActiveUser())) {
-                transfersVBox.getChildren().add(new Label(t.formatForPortalRecipient()));
+                transferItems.add(t.formatForPortalRecipient());
             }
-            transfers.setContent(transfersVBox);
+            Collections.reverse(transferItems);
+            transferList.setItems(transferItems);
+            transfers.setContent(transferList);
         } catch (IOException e) {
 
         }
         tabPane.getTabs().add(transfers);
         Tab deposits = new Tab("Deposits");
         deposits.setClosable(false);
-        VBox depositsBox = new VBox();
-
+        ListView<String> depositsList = new ListView<String>();
+        ObservableList<String> depositItems = FXCollections.observableArrayList();
         try {
             for(Deposit d: Deposits.getInstance().getUserDeposits(LoginManager.getInstance().getActiveUser())) {
-                depositsBox.getChildren().add(new Label(d.formatForPortal()));
+                depositItems.add(d.formatForPortal());
             }
-            deposits.setContent(depositsBox);
+            Collections.reverse(depositItems);
+            depositsList.setItems(depositItems);
+            deposits.setContent(depositsList);
         } catch (IOException e) {
 
         }
@@ -127,13 +131,16 @@ public class BankAccountScene {
 
         Tab withdrawals = new Tab("Withdrawals");
         withdrawals.setClosable(false);
-        VBox withdrawalsVBox = new VBox();
+        ListView<String> withdrawalsList = new ListView<String>();
+        ObservableList<String> withdrawalsItems = FXCollections.observableArrayList();
 
         try {
             for(Withdrawal t: Withdrawals.getInstance().getUserWithdrawals(LoginManager.getInstance().getActiveUser())) {
-                withdrawalsVBox.getChildren().add(new Label(t.formatForPortal()));
+                withdrawalsItems.add(t.formatForPortal());
             }
-            withdrawals.setContent(withdrawalsVBox);
+            Collections.reverse(withdrawalsItems);
+            withdrawalsList.setItems(withdrawalsItems);
+            withdrawals.setContent(withdrawalsList);
         } catch (IOException e) {
 
         }

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Payments {
@@ -76,6 +77,7 @@ public class Payments {
                 toReturn.add(t);
             }
         }
+        Collections.reverse(toReturn);
         return toReturn;
     }
 }

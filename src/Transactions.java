@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Transactions {
@@ -81,7 +82,6 @@ public class Transactions {
         writer.close();
         writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("transactions.txt"), "utf-8"));
         for(Transaction t: transactions) {
-            System.out.println(t.toString());
             writer.write(t.toString() + "\n");
         }
         writer.flush();
@@ -104,6 +104,7 @@ public class Transactions {
                 toReturn.add(t);
             }
         }
+        Collections.reverse(toReturn);
         return toReturn;
     }
 
@@ -116,6 +117,7 @@ public class Transactions {
                 }
             }
         }
+        Collections.reverse(toReturn);
         return toReturn;
     }
 }

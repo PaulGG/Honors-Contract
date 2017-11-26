@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Transfers {
@@ -81,7 +82,7 @@ public class Transfers {
     public ArrayList<Transfer> getRecipientTransfers(String recipient) {
         ArrayList<Transfer> toReturn = new ArrayList<Transfer>();
         for(Transfer t: transfers) {
-            if(t.recipient.equals(recipient)) {
+            if (t.recipient.equals(recipient)) {
                 toReturn.add(t);
             }
         }
